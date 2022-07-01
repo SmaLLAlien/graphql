@@ -9,6 +9,7 @@ export default gql`
         birthDate: String
         birthPlace: String
         country: String
+        bands: [Band]
         instruments: String
     }
     extend type Query {
