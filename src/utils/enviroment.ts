@@ -5,3 +5,4 @@ export const  PORT = parsed.PORT || 8000;
 export const  GENRE_URL = parsed.GENRES;
 export const  ARTISTS_URL = parsed.ARTISTS;
 export const  BANDS_URL = parsed.BANDS;
+export const  USERS_URL = parsed.USERS;
