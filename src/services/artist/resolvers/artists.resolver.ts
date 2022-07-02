@@ -1,4 +1,4 @@
-import {getArtist, getArtists} from "../artists.service";
+import {createArtist, deleteArtist, getArtist, getArtists, updateArtist} from "../artists.service";
 import {getBand} from "../../band/bands.service";
 
 export default {
@@ -10,9 +10,25 @@ export default {
             return await getArtist(args.id)
         }
     },
+    Mutation: {
+        createArtist: async (parent, args, context) => {
+            return await createArtist(args.artist)
+        },
+        deleteArtist: async (parent, args, context) => {
+            return await deleteArtist(args.id)
+        },
+        updateArtist: async (parent, args, context) => {
+            return await updateArtist(args.artist)
+        }
+    },
     Artist: {
-        bands: async ({bandsIds}, args, ctx, info) => {
-            return await Promise.all(bandsIds.map(id => getBand(id)));
+        bands: async (parent, args, ctx, info) => {
+            const ids = parent.bandsIds
+                ? parent.bandsIds
+                : parent.bands
+                    ? parent.bands
+                    : [];
+            return await Promise.all(ids.map(id => getBand(id)));
         }
     }
 }
