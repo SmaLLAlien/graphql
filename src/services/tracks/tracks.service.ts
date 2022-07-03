@@ -6,7 +6,9 @@ export const getTracks = async (limit = 5, offset = 0) => {
         const url = `${TRACKS_URL}?limit=${limit}&offset=${offset}`;
         const resp = await axios.get(url);
         return resp.data.items.map(item => {
-            item.id = item._id;
+            if (item?._id) {
+                item.id = item._id;
+            }
             return item;
         });
     } catch (e) {
@@ -19,7 +21,9 @@ export const getTrack = async (id: string) => {
     try {
         const url = `${TRACKS_URL}/${id}`;
         const resp = await axios.get(url);
-        resp.data.id = resp.data._id;
+        if (resp?.data?._id) {
+            resp.data.id = resp.data._id;
+        }
         return resp.data;
     } catch (e) {
         console.log(e.response.data);
@@ -35,7 +39,9 @@ export const createTrack = async (track) => {
             Authorization: `Bearer ${TOKEN}`
         }
         const resp = await axios.post(url, newBand, {headers});
-        resp.data.id = resp.data._id;
+        if (resp?.data?._id) {
+            resp.data.id = resp.data._id;
+        }
         return resp.data;
     } catch (e) {
         console.log(e.response.data);
@@ -81,7 +87,9 @@ export const updateTrack= async (track) => {
             Authorization: `Bearer ${TOKEN}`
         }
         const resp = await axios.put(url, newBand, {headers});
-        resp.data.id = resp.data._id;
+        if (resp?.data?._id) {
+            resp.data.id = resp.data._id;
+        }
         return resp.data;
     } catch (e) {
         console.log(e.response.data);

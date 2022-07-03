@@ -6,7 +6,9 @@ export const getGenres = async (limit = 5, offset = 0) => {
         const url = `${GENRE_URL}?limit=${limit}&offset=${offset}`;
         const resp = await axios.get(url);
         return resp.data.items.map(item => {
-            item.id = item._id;
+            if (item?._id) {
+                item.id = item._id;
+            }
             return item;
         });
     } catch (e) {
@@ -19,7 +21,9 @@ export const getGenre = async (id: string) => {
     try {
         const url = `${GENRE_URL}/${id}`;
         const resp = await axios.get(url);
-        resp.data.id = resp.data._id;
+        if (resp?.data?._id) {
+            resp.data.id = resp.data._id;
+        }
         return resp.data;
     } catch (e) {
         console.log(e.response.data);
@@ -35,7 +39,9 @@ export const createGenre = async ({name, description, country, year}) => {
             Authorization: `Bearer ${TOKEN}`
         }
         const resp = await axios.post(url, newGenre, {headers});
-        resp.data.id = resp.data._id;
+        if (resp?.data?._id) {
+            resp.data.id = resp.data._id;
+        }
         return resp.data;
     } catch (e) {
         console.log(e.response.data);
@@ -77,7 +83,9 @@ export const updateGenre = async ({id, name, description, country, year}) => {
             Authorization: `Bearer ${TOKEN}`
         }
         const resp = await axios.put(url, newGenre, {headers});
-        resp.data.id = resp.data._id;
+        if (resp?.data?._id) {
+            resp.data.id = resp.data._id;
+        }
         return resp.data;
     } catch (e) {
         console.log(e.response.data);
