@@ -2,7 +2,7 @@ import {gql} from 'apollo-server-express';
 
 export default gql`
     type User {
-        _id: ID!
+        id: ID!
         firstName: String
         lastName: String
         password: String
@@ -19,7 +19,9 @@ export default gql`
     }
     
     extend type Query {
-        register(user: UserInput): User
         login(email: String!, password: String!): JWT
+    }
+    extend type Mutation {
+        register(user: UserInput): User
     }
 `

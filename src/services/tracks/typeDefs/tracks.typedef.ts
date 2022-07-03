@@ -2,7 +2,7 @@ import {gql} from 'apollo-server-express';
 
 export default gql`
     type Track {
-        _id: ID!
+        id: ID!
         title: String
         album: String
         artists: [Artist]
@@ -29,6 +29,10 @@ export default gql`
         duration: Int
         released: Int
         genresIds: [String]
+    }
+    type Deleted {
+        deletedCount: Int,
+        id: ID
     }
     extend type Query {
         tracks(limit: Int, offset: Int): [Track]

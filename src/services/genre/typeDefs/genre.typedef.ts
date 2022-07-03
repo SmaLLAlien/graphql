@@ -2,7 +2,7 @@ import {gql} from 'apollo-server-express';
 
 export default gql`
     type Genre {
-        _id: ID!
+        id: ID!
         name: String
         description: String
         country: String
@@ -23,7 +23,7 @@ export default gql`
     }
     type Deleted {
         deletedCount: Int,
-        _id: ID
+        id: ID
     }
     extend type Query {
         genres(limit: Int, offset: Int): [Genre]

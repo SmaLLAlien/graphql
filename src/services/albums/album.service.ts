@@ -2,15 +2,29 @@ import axios from "axios";
 import {ALBUMS_URL, TOKEN} from "../../utils/enviroment";
 
 export const getAlbums = async (limit = 5, offset = 0) => {
-    const url = `${ALBUMS_URL}?limit=${limit}&offset=${offset}`;
-    const resp = await axios.get(url);
-    return resp.data.items;
+    try {
+        const url = `${ALBUMS_URL}?limit=${limit}&offset=${offset}`;
+        const resp = await axios.get(url);
+        return resp.data.items.map(item => {
+            item.id = item._id;
+            return item;
+        });
+    } catch (e) {
+        console.log(e.response.data);
+        return [];
+    }
 }
 
 export const getAlbum = async (id: string) => {
-    const url = `${ALBUMS_URL}/${id}`;
-    const resp = await axios.get(url);
-    return resp.data;
+    try {
+        const url = `${ALBUMS_URL}/${id}`;
+        const resp = await axios.get(url);
+        resp.data.id = resp.data._id;
+        return resp.data;
+    } catch (e) {
+        console.log(e.response.data);
+        return null;
+    }
 }
 
 export const createAlbum = async (album) => {
@@ -20,6 +34,7 @@ export const createAlbum = async (album) => {
             Authorization: `Bearer ${TOKEN}`
         }
         const resp = await axios.post(url, album, {headers});
+        resp.data.id = resp.data._id;
         return resp.data;
     } catch (e) {
         console.log(e.response.data);
@@ -34,7 +49,7 @@ export const deleteAlbum = async (id: string) => {
             Authorization: `Bearer ${TOKEN}`
         }
         const resp = await axios.delete(url, {headers});
-        return {_id: id, deletedCount: resp.data.deletedCount};
+        return {id: id, deletedCount: resp.data.deletedCount};
     } catch (e) {
         console.log(e.response.data);
         return null;
@@ -42,28 +57,29 @@ export const deleteAlbum = async (id: string) => {
 }
 
 export const updateAlbum = async (album) => {
-    const url = `${ALBUMS_URL}/${album.id}`;
-    const newGenre = {};
-    const values = [
-        {key: "name", val: album.name},
-        {key: "released", val: album.released},
-        {key: "artistsIds", val: album.artistsIds},
-        {key: "bandsIds", val: album.bandsIds},
-        {key: "trackIds", val: album.trackIds},
-        {key: "genresIds", val: album.genresIds},
-        {key: "image", val: album.image},
-    ].filter(obj => obj.val !== null && obj.val !== undefined);
-
-    if (!values.length) {
-        throw new Error('Nothing to update, please fill at least one field');
-    }
-    values.forEach(obj => newGenre[obj["key"]] = obj.val);
-
     try {
+        const url = `${ALBUMS_URL}/${album.id}`;
+        const newGenre = {};
+        const values = [
+            {key: "name", val: album.name},
+            {key: "released", val: album.released},
+            {key: "artistsIds", val: album.artistsIds},
+            {key: "bandsIds", val: album.bandsIds},
+            {key: "trackIds", val: album.trackIds},
+            {key: "genresIds", val: album.genresIds},
+            {key: "image", val: album.image},
+        ].filter(obj => obj.val !== null && obj.val !== undefined);
+
+        if (!values.length) {
+            throw new Error('Nothing to update, please fill at least one field');
+        }
+        values.forEach(obj => newGenre[obj["key"]] = obj.val);
+
         const headers = {
             Authorization: `Bearer ${TOKEN}`
         }
         const resp = await axios.put(url, newGenre, {headers});
+        resp.data.id = resp.data._id;
         return resp.data;
     } catch (e) {
         console.log(e.response.data);

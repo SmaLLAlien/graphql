@@ -11,6 +11,7 @@ export const register = async ({user}) => {
     }
     try {
         const resp = await axios.post(url, body);
+        resp.data.id = resp.data._id;
         return resp.data;
     } catch (e) {
         console.log(e.response.data);
@@ -28,6 +29,7 @@ export const login = async (email: string, password: string) => {
     }
     try {
         const resp = await axios.post(url, body);
+        resp.data.id = resp.data._id;
         return resp.data;
     } catch (e) {
         return null;

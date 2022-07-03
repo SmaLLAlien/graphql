@@ -2,7 +2,7 @@ import {gql} from 'apollo-server-express';
 
 export default gql`
     type Band {
-        _id: ID!
+        id: ID!
         name: String
         origin: String
         website: String
@@ -20,6 +20,10 @@ export default gql`
         origin: String
         website: String
         genresIds: [String]
+    }
+    type Deleted {
+        deletedCount: Int,
+        id: ID
     }
     extend type Query {
         bands(limit: Int, offset: Int): [Band]
