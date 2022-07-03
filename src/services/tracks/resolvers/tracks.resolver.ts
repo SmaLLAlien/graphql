@@ -36,6 +36,6 @@ export default {
         },
         album: async ({albumId}, args, ctx, info) => {
             return await getAlbum(albumId);
-        },
+        }
     }
 }

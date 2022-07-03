@@ -73,7 +73,7 @@ export const updateAlbum = async (album) => {
             {key: "bandsIds", val: album.bandsIds},
             {key: "trackIds", val: album.trackIds},
             {key: "genresIds", val: album.genresIds},
-            {key: "image", val: album.image},
+            {key: "image", val: album.image}
         ].filter(obj => obj.val !== null && obj.val !== undefined);
 
         if (!values.length) {

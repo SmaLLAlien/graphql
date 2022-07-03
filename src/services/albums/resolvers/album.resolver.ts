@@ -36,7 +36,7 @@ export default {
         },
         tracks: async ({trackIds}, args, ctx, info) => {
             return await Promise.all(trackIds.map(id => getTrack(id)));
-        },
+        }
     }
 }
 

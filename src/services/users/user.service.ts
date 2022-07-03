@@ -7,7 +7,7 @@ export const register = async ({user}) => {
         password: user.password,
         email: user.email,
         lastName: user.lastName,
-        firstName: user.firstName,
+        firstName: user.firstName
     }
     try {
         const resp = await axios.post(url, body);

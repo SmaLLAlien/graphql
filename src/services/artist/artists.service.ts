@@ -77,7 +77,7 @@ export const updateArtist = async (artist) => {
             {key: "birthPlace", val: artist.birthPlace},
             {key: "country", val: artist.country},
             {key: "bandsIds", val: artist.bandsIds},
-            {key: "instruments", val: artist.instruments},
+            {key: "instruments", val: artist.instruments}
         ].filter(obj => obj.val !== null && obj.val !== undefined);
 
         if (!values.length) {
