@@ -8,7 +8,7 @@
     "lint": "eslint src/**/*.ts",
     "lint:fix": "eslint src/**/*.ts --fix",
     "prettier": "prettier 'src/**/*.ts'",
-    "prettier:fix": "prettier --write 'src/**/*.ts'"
+    "prettier:fix": "prettier --write src//**/*.{js,ts}"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +28,8 @@
     "@typescript-eslint/eslint-plugin": "^5.30.3",
     "@typescript-eslint/parser": "^5.30.3",
     "eslint": "^8.19.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.2.1",
     "prettier": "^2.7.1"
   }
 }

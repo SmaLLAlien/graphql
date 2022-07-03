@@ -1,16 +1,14 @@
-import {login, register} from "../user.service";
+import { login, register } from '../user.service';
 
 export default {
-    Query: {
-        login: async (parent, {email, password}, context) => {
-            return await login(email, password)
-        }
+  Query: {
+    login: async (parent, { email, password }, context) => {
+      return await login(email, password);
     },
-    Mutation: {
-        register: async (_, args) => {
-            return await register(args)
-        }
-    }
-}
-
-
+  },
+  Mutation: {
+    register: async (_, args) => {
+      return await register(args);
+    },
+  },
+};
