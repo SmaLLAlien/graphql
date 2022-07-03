@@ -2,6 +2,7 @@ import {createTrack, deleteTrack, getTrack, getTracks, updateTrack} from "../tra
 import {getGenre} from "../../genre/genre.service";
 import {getBand} from "../../band/bands.service";
 import {getArtist} from "../../artist/artists.service";
+import {getAlbum} from "../../albums/album.service";
 
 export default {
     Query: {
@@ -32,6 +33,9 @@ export default {
         },
         artists: async ({artistsIds}, args, ctx, info) => {
             return await Promise.all(artistsIds.map(id => getArtist(id)));
-        }
+        },
+        album: async ({albumId}, args, ctx, info) => {
+            return await getAlbum(albumId);
+        },
     }
 }

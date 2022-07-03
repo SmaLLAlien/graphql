@@ -24,7 +24,7 @@ export const getTrack = async (id: string) => {
         if (resp?.data?._id) {
             resp.data.id = resp.data._id;
         }
-        return resp.data;
+        return resp.data ? resp.data : null;
     } catch (e) {
         console.log(e.response.data);
         return null;
