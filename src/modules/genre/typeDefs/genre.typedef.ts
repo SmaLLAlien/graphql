@@ -14,6 +14,14 @@ export default gql`
     country: String
     year: Int
   }
+  input FilterGenreInput {
+    limit: Int
+    offset: Int
+    name: String
+    description: String
+    country: String
+    year: Int
+  }
   input UpdateGenreInput {
     id: ID!
     name: String
@@ -26,7 +34,7 @@ export default gql`
     id: ID
   }
   extend type Query {
-    genres(limit: Int, offset: Int): [Genre]
+    genres(filter: FilterGenreInput): [Genre]
     genre(id: ID!): Genre
   }
   extend type Mutation {

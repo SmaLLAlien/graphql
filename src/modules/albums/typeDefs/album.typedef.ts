@@ -20,6 +20,12 @@ export default gql`
     genresIds: [String]
     image: String
   }
+  input FilterAlbumInput {
+    limit: Int
+    offset: Int
+    name: String
+    released: Int
+  }
   input UpdateAlbumInput {
     id: String
     name: String
@@ -35,7 +41,7 @@ export default gql`
     id: ID
   }
   extend type Query {
-    albums(limit: Int, offset: Int): [Album]
+    albums(filter: FilterAlbumInput): [Album]
     album(id: ID!): Album
   }
   extend type Mutation {

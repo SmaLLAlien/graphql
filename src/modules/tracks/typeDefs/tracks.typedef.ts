@@ -20,6 +20,14 @@ export default gql`
     released: Int
     genresIds: [String]
   }
+  input FilterTrackInput {
+    limit: Int
+    offset: Int
+    title: String
+    albumId: String
+    duration: Int
+    released: Int
+  }
   input UpdateTackInput {
     id: ID!
     title: String
@@ -35,7 +43,7 @@ export default gql`
     id: ID
   }
   extend type Query {
-    tracks(limit: Int, offset: Int): [Track]
+    tracks(filter: FilterTrackInput): [Track]
     track(id: ID!): Track
   }
   extend type Mutation {

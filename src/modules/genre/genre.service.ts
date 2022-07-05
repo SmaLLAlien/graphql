@@ -1,9 +1,13 @@
 import axios from 'axios';
 import { GENRE_URL, TOKEN } from '../../utils/enviroment';
+import { IGenre, IFilterGenre } from './config/interfaces';
+import { addQueryParams } from '../../utils/addQueryParams';
 
-export const getGenres = async (limit = 5, offset = 0) => {
+export const getGenres = async (limit = 5, offset = 0, filter: IFilterGenre): Promise<IGenre[]> => {
   try {
-    const url = `${GENRE_URL}?limit=${limit}&offset=${offset}`;
+    let url = `${GENRE_URL}?limit=${limit}&offset=${offset}`;
+    url = addQueryParams(url, filter);
+
     const resp = await axios.get(url);
     return resp.data.items.map((item) => {
       if (item?._id) {
@@ -17,7 +21,7 @@ export const getGenres = async (limit = 5, offset = 0) => {
   }
 };
 
-export const getGenre = async (id: string) => {
+export const getGenre = async (id: string): Promise<IGenre> => {
   try {
     const url = `${GENRE_URL}/${id}`;
     const resp = await axios.get(url);
@@ -31,7 +35,7 @@ export const getGenre = async (id: string) => {
   }
 };
 
-export const createGenre = async ({ name, description, country, year }) => {
+export const createGenre = async ({ name, description, country, year }): Promise<IGenre> => {
   try {
     const url = `${GENRE_URL}`;
     const newGenre = { name, description, country, year };
@@ -63,7 +67,7 @@ export const deleteGenre = async (id: string) => {
   }
 };
 
-export const updateGenre = async ({ id, name, description, country, year }) => {
+export const updateGenre = async ({ id, name, description, country, year }): Promise<IGenre> => {
   try {
     const url = `${GENRE_URL}/${id}`;
     const newGenre: { name?: string; description?: string; country?: string; year?: number } = {};

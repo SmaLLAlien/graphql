@@ -1,9 +1,13 @@
 import axios from 'axios';
 import { ALBUMS_URL, TOKEN } from '../../utils/enviroment';
+import { addQueryParams } from '../../utils/addQueryParams';
+import { IAlbum, IFilterAlbum } from './config/interfaces';
 
-export const getAlbums = async (limit = 5, offset = 0) => {
+export const getAlbums = async (limit = 5, offset = 0, filter: IFilterAlbum): Promise<IAlbum[]> => {
   try {
-    const url = `${ALBUMS_URL}?limit=${limit}&offset=${offset}`;
+    let url = `${ALBUMS_URL}?limit=${limit}&offset=${offset}`;
+    url = addQueryParams(url, filter);
+
     const resp = await axios.get(url);
     return resp.data.items.map((item) => {
       if (item?._id) {
@@ -17,7 +21,7 @@ export const getAlbums = async (limit = 5, offset = 0) => {
   }
 };
 
-export const getAlbum = async (id: string) => {
+export const getAlbum = async (id: string): Promise<IAlbum> => {
   try {
     const url = `${ALBUMS_URL}/${id}`;
     const resp = await axios.get(url);
@@ -31,7 +35,7 @@ export const getAlbum = async (id: string) => {
   }
 };
 
-export const createAlbum = async (album) => {
+export const createAlbum = async (album: IAlbum): Promise<IAlbum> => {
   const url = `${ALBUMS_URL}`;
   try {
     const headers = {
@@ -62,7 +66,7 @@ export const deleteAlbum = async (id: string) => {
   }
 };
 
-export const updateAlbum = async (album) => {
+export const updateAlbum = async (album: IAlbum): Promise<IAlbum> => {
   try {
     const url = `${ALBUMS_URL}/${album.id}`;
     const newGenre = {};

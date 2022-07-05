@@ -1,9 +1,13 @@
 import axios from 'axios';
 import { TOKEN, TRACKS_URL } from '../../utils/enviroment';
+import { IFilterTrack, ITrack } from './config/interfaces';
+import { addQueryParams } from '../../utils/addQueryParams';
 
-export const getTracks = async (limit = 5, offset = 0) => {
+export const getTracks = async (limit = 5, offset = 0, filter: IFilterTrack): Promise<ITrack[]> => {
   try {
-    const url = `${TRACKS_URL}?limit=${limit}&offset=${offset}`;
+    let url = `${TRACKS_URL}?limit=${limit}&offset=${offset}`;
+    url = addQueryParams(url, filter);
+
     const resp = await axios.get(url);
     return resp.data.items.map((item) => {
       if (item?._id) {
@@ -17,7 +21,7 @@ export const getTracks = async (limit = 5, offset = 0) => {
   }
 };
 
-export const getTrack = async (id: string) => {
+export const getTrack = async (id: string): Promise<ITrack> => {
   try {
     const url = `${TRACKS_URL}/${id}`;
     const resp = await axios.get(url);
@@ -31,7 +35,7 @@ export const getTrack = async (id: string) => {
   }
 };
 
-export const createTrack = async (track) => {
+export const createTrack = async (track: ITrack): Promise<ITrack> => {
   try {
     const url = `${TRACKS_URL}`;
     const newBand = { ...track };
@@ -63,10 +67,10 @@ export const deleteTrack = async (id: string) => {
   }
 };
 
-export const updateTrack = async (track) => {
+export const updateTrack = async (track: ITrack): Promise<ITrack> => {
   try {
     const url = `${TRACKS_URL}/${track.id}`;
-    const newBand = {};
+    const newBand: ITrack = {};
 
     const values = [
       { key: 'title', val: track.title },

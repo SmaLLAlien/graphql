@@ -1,9 +1,14 @@
 import axios from 'axios';
 import { BANDS_URL, TOKEN } from '../../utils/enviroment';
+import { IBand, IFilterBand } from './config/interfaces';
+import { LIMIT, OFFSET } from '../artist/config/config';
+import { addQueryParams } from '../../utils/addQueryParams';
 
-export const getBands = async (limit = 5, offset = 0) => {
+export const getBands = async (limit = LIMIT, offset = OFFSET, filter: IFilterBand): Promise<IBand[]> => {
   try {
-    const url = `${BANDS_URL}?limit=${limit}&offset=${offset}`;
+    let url = `${BANDS_URL}?limit=${limit}&offset=${offset}`;
+    url = addQueryParams(url, filter);
+
     const resp = await axios.get(url);
     return resp.data.items.map((item) => {
       if (item?._id) {
@@ -17,7 +22,7 @@ export const getBands = async (limit = 5, offset = 0) => {
   }
 };
 
-export const getBand = async (id: string) => {
+export const getBand = async (id: string): Promise<IBand> => {
   try {
     const url = `${BANDS_URL}/${id}`;
     const resp = await axios.get(url);
@@ -31,10 +36,10 @@ export const getBand = async (id: string) => {
   }
 };
 
-export const createBand = async ({ name, origin, website, genresIds }) => {
+export const createBand = async ({ name, origin, website, genresIds }): Promise<IBand> => {
   try {
     const url = `${BANDS_URL}`;
-    const newBand = { name, origin, website, genresIds };
+    const newBand: IBand = { name, origin, website, genresIds };
     const headers = {
       Authorization: `Bearer ${TOKEN}`,
     };
@@ -63,7 +68,7 @@ export const deleteBand = async (id: string) => {
   }
 };
 
-export const updateBand = async ({ id, name, origin, website, genresIds }) => {
+export const updateBand = async ({ id, name, origin, website, genresIds }): Promise<IBand> => {
   try {
     const url = `${BANDS_URL}/${id}`;
     const newBand: { name?: string; description?: string; country?: string; year?: number } = {};

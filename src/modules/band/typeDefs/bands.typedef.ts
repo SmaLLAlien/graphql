@@ -14,6 +14,13 @@ export default gql`
     website: String
     genresIds: [String]
   }
+  input FilterBandInput {
+    limit: Int
+    offset: Int
+    name: String
+    origin: String
+    website: String
+  }
   input UpdateBandInput {
     id: ID!
     name: String
@@ -26,7 +33,7 @@ export default gql`
     id: ID
   }
   extend type Query {
-    bands(limit: Int, offset: Int): [Band]
+    bands(filter: FilterBandInput): [Band]
     band(id: ID!): Band
   }
   extend type Mutation {

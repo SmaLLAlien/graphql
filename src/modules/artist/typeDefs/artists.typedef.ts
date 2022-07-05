@@ -22,6 +22,16 @@ export default gql`
     bandsIds: [String]!
     instruments: [String]!
   }
+  input FilterArtist {
+    limit: Int
+    offset: Int
+    firstName: String
+    secondName: String
+    middleName: String
+    birthDate: String
+    birthPlace: String
+    country: String
+  }
   input UpdateArtistInput {
     id: ID!
     firstName: String
@@ -38,7 +48,7 @@ export default gql`
     id: ID
   }
   extend type Query {
-    artists(limit: Int, offset: Int): [Artist]
+    artists(filter: FilterArtist): [Artist]
     artist(id: ID!): Artist
   }
   extend type Mutation {

@@ -1,9 +1,14 @@
 import axios from 'axios';
 import { ARTISTS_URL, TOKEN } from '../../utils/enviroment';
+import { IArtist, IFilterArtist } from './config/interfaces';
+import { addQueryParams } from '../../utils/addQueryParams';
+import { LIMIT, OFFSET } from './config/config';
 
-export const getArtists = async (limit = 5, offset = 0) => {
+export const getArtists = async (limit = LIMIT, offset = OFFSET, filter: IFilterArtist): Promise<IArtist[]> => {
   try {
-    const url = `${ARTISTS_URL}?limit=${limit}&offset=${offset}`;
+    let url = `${ARTISTS_URL}?limit=${limit}&offset=${offset}`;
+    url = addQueryParams(url, filter);
+
     const resp = await axios.get(url);
     return resp.data.items.map((item) => {
       if (item?._id) {
@@ -17,7 +22,7 @@ export const getArtists = async (limit = 5, offset = 0) => {
   }
 };
 
-export const getArtist = async (id: string) => {
+export const getArtist = async (id: string): Promise<IArtist> => {
   try {
     const url = `${ARTISTS_URL}/${id}`;
     const resp = await axios.get(url);
@@ -32,7 +37,7 @@ export const getArtist = async (id: string) => {
   }
 };
 
-export const createArtist = async (artist) => {
+export const createArtist = async (artist): Promise<IArtist> => {
   try {
     const url = `${ARTISTS_URL}`;
     const newArtist = { ...artist };
@@ -64,10 +69,10 @@ export const deleteArtist = async (id: string) => {
   }
 };
 
-export const updateArtist = async (artist) => {
+export const updateArtist = async (artist): Promise<IArtist> => {
   try {
     const url = `${ARTISTS_URL}/${artist.id}`;
-    const newArtist: { [key: string]: any } = {};
+    const newArtist: IArtist = {};
 
     const values = [
       { key: 'firstName', val: artist.firstName },

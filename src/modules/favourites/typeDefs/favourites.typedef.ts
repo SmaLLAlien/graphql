@@ -10,7 +10,7 @@ export default gql`
     tracks: [Track]
   }
   extend type Query {
-    favourites(limit: Int, offset: Int): Favourite
+    favourites: Favourite
   }
   extend type Mutation {
     addTrackToFavourites(id: String): Favourite
