@@ -36,10 +36,10 @@ export const getBand = async (id: string): Promise<IBand> => {
   }
 };
 
-export const createBand = async ({ name, origin, website, genresIds }): Promise<IBand> => {
+export const createBand = async ({ name, origin, website, genresIds, members }): Promise<IBand> => {
   try {
     const url = `${BANDS_URL}`;
-    const newBand: IBand = { name, origin, website, genresIds };
+    const newBand: IBand = { name, origin, website, genresIds, members };
     const headers = {
       Authorization: `Bearer ${TOKEN}`,
     };
@@ -68,16 +68,17 @@ export const deleteBand = async (id: string) => {
   }
 };
 
-export const updateBand = async ({ id, name, origin, website, genresIds }): Promise<IBand> => {
+export const updateBand = async ({ id, name, origin, website, genresIds, members }): Promise<IBand> => {
   try {
     const url = `${BANDS_URL}/${id}`;
-    const newBand: { name?: string; description?: string; country?: string; year?: number } = {};
+    const newBand: IBand = {};
 
     const values = [
       { key: 'name', val: name },
       { key: 'origin', val: origin },
       { key: 'website', val: website },
       { key: 'genresIds', val: genresIds },
+      { key: 'members', val: members },
     ].filter((obj) => obj.val !== null && obj.val !== undefined);
 
     if (!values.length) {

@@ -2,6 +2,8 @@ import { createBand, deleteBand, getBand, getBands, updateBand } from '../bands.
 import { getGenre } from '../../genre/genre.service';
 import { IBand } from '../config/interfaces';
 import { IGenre } from '../../genre/config/interfaces';
+import { getArtist } from '../../artist/artists.service';
+import { IArtist } from '../../artist/config/interfaces';
 
 export default {
   Query: {
@@ -27,6 +29,18 @@ export default {
   Band: {
     genres: async ({ genresIds }): Promise<IGenre[]> => {
       return await Promise.all(genresIds.map((id) => getGenre(id)));
+    },
+    members: async (parent): Promise<IArtist[]> => {
+      await Promise.all(
+        parent.members.map((member) => {
+          const artist = getArtist(member.artist);
+          if (artist) {
+            member.artist = artist;
+          }
+          return artist;
+        }),
+      );
+      return parent.members;
     },
   },
 };
