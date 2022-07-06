@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { BANDS_URL, TOKEN } from '../../utils/enviroment';
+import { BANDS_URL } from '../../utils/enviroment';
 import { IBand, IFilterBand } from './config/interfaces';
 import { LIMIT, OFFSET } from '../artist/config/config';
 import { addQueryParams } from '../../utils/addQueryParams';
+import { tokenInstance } from '../../utils/tokenService';
 
 export const getBands = async (limit = LIMIT, offset = OFFSET, filter: IFilterBand): Promise<IBand[]> => {
   try {
@@ -41,7 +42,7 @@ export const createBand = async ({ name, origin, website, genresIds, members }):
     const url = `${BANDS_URL}`;
     const newBand: IBand = { name, origin, website, genresIds, members };
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.post(url, newBand, { headers });
     if (resp?.data?._id) {
@@ -58,7 +59,7 @@ export const deleteBand = async (id: string) => {
   const url = `${BANDS_URL}/${id}`;
   try {
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.delete(url, { headers });
     return { id: id, deletedCount: resp.data.deletedCount };
@@ -87,7 +88,7 @@ export const updateBand = async ({ id, name, origin, website, genresIds, members
     values.forEach((obj) => (newBand[obj['key']] = obj.val));
 
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.put(url, newBand, { headers });
     if (resp?.data?._id) {

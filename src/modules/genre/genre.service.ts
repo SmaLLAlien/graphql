@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { GENRE_URL, TOKEN } from '../../utils/enviroment';
+import { GENRE_URL } from '../../utils/enviroment';
 import { IGenre, IFilterGenre } from './config/interfaces';
 import { addQueryParams } from '../../utils/addQueryParams';
+import { tokenInstance } from '../../utils/tokenService';
 
 export const getGenres = async (limit = 5, offset = 0, filter: IFilterGenre): Promise<IGenre[]> => {
   try {
@@ -40,7 +41,7 @@ export const createGenre = async ({ name, description, country, year }): Promise
     const url = `${GENRE_URL}`;
     const newGenre = { name, description, country, year };
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.post(url, newGenre, { headers });
     if (resp?.data?._id) {
@@ -57,7 +58,7 @@ export const deleteGenre = async (id: string) => {
   const url = `${GENRE_URL}/${id}`;
   try {
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.delete(url, { headers });
     return { id, deletedCount: resp.data.deletedCount };
@@ -84,7 +85,7 @@ export const updateGenre = async ({ id, name, description, country, year }): Pro
     values.forEach((obj) => (newGenre[obj['key']] = obj.val));
 
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.put(url, newGenre, { headers });
     if (resp?.data?._id) {

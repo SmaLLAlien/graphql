@@ -1,12 +1,13 @@
 import axios from 'axios';
-import { FAVOURITES, TOKEN } from '../../utils/enviroment';
+import { FAVOURITES } from '../../utils/enviroment';
 import { IFavorite } from './config/interfaces';
+import { tokenInstance } from '../../utils/tokenService';
 
 export const getFavourites = async (): Promise<IFavorite> => {
   try {
     const url = `${FAVOURITES}`;
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.get(url, { headers });
 
@@ -25,7 +26,7 @@ export const addToFavourites = async (id: string, type: string): Promise<IFavori
     const url = `${FAVOURITES}/add`;
     const body = { id, type };
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.put(url, body, { headers });
 
@@ -44,7 +45,7 @@ export const removeFromFavourites = async (id: string, type: string): Promise<IF
     const url = `${FAVOURITES}/remove`;
     const body = { id, type };
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.put(url, body, { headers });
 

@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { ALBUMS_URL, TOKEN } from '../../utils/enviroment';
+import { ALBUMS_URL } from '../../utils/enviroment';
 import { addQueryParams } from '../../utils/addQueryParams';
 import { IAlbum, IFilterAlbum } from './config/interfaces';
+import { tokenInstance } from '../../utils/tokenService';
 
 export const getAlbums = async (limit = 5, offset = 0, filter: IFilterAlbum): Promise<IAlbum[]> => {
   try {
@@ -39,7 +40,7 @@ export const createAlbum = async (album: IAlbum): Promise<IAlbum> => {
   const url = `${ALBUMS_URL}`;
   try {
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.post(url, album, { headers });
     if (resp?.data?._id) {
@@ -56,7 +57,7 @@ export const deleteAlbum = async (id: string) => {
   const url = `${ALBUMS_URL}/${id}`;
   try {
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.delete(url, { headers });
     return { id: id, deletedCount: resp.data.deletedCount };
@@ -86,7 +87,7 @@ export const updateAlbum = async (album: IAlbum): Promise<IAlbum> => {
     values.forEach((obj) => (newGenre[obj['key']] = obj.val));
 
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.put(url, newGenre, { headers });
     if (resp?.data?._id) {

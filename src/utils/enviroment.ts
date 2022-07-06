@@ -9,4 +9,3 @@ export const USERS_URL = parsed.USERS;
 export const TRACKS_URL = parsed.TRACKS;
 export const ALBUMS_URL = parsed.ALBUMS;
 export const FAVOURITES = parsed.FAVOURITES;
-export const TOKEN = parsed.TOKEN;

@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { TOKEN, TRACKS_URL } from '../../utils/enviroment';
+import { TRACKS_URL } from '../../utils/enviroment';
 import { IFilterTrack, ITrack } from './config/interfaces';
 import { addQueryParams } from '../../utils/addQueryParams';
+import { tokenInstance } from '../../utils/tokenService';
 
 export const getTracks = async (limit = 5, offset = 0, filter: IFilterTrack): Promise<ITrack[]> => {
   try {
@@ -40,7 +41,7 @@ export const createTrack = async (track: ITrack): Promise<ITrack> => {
     const url = `${TRACKS_URL}`;
     const newBand = { ...track };
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.post(url, newBand, { headers });
     if (resp?.data?._id) {
@@ -57,7 +58,7 @@ export const deleteTrack = async (id: string) => {
   const url = `${TRACKS_URL}/${id}`;
   try {
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.delete(url, { headers });
     return { id: id, deletedCount: resp.data.deletedCount };
@@ -88,7 +89,7 @@ export const updateTrack = async (track: ITrack): Promise<ITrack> => {
     values.forEach((obj) => (newBand[obj['key']] = obj.val));
 
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.put(url, newBand, { headers });
     if (resp?.data?._id) {

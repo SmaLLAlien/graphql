@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { ARTISTS_URL, TOKEN } from '../../utils/enviroment';
+import { ARTISTS_URL } from '../../utils/enviroment';
 import { IArtist, IFilterArtist } from './config/interfaces';
 import { addQueryParams } from '../../utils/addQueryParams';
 import { LIMIT, OFFSET } from './config/config';
+import { tokenInstance } from '../../utils/tokenService';
 
 export const getArtists = async (limit = LIMIT, offset = OFFSET, filter: IFilterArtist): Promise<IArtist[]> => {
   try {
@@ -42,7 +43,7 @@ export const createArtist = async (artist): Promise<IArtist> => {
     const url = `${ARTISTS_URL}`;
     const newArtist = { ...artist };
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.post(url, newArtist, { headers });
     if (resp?.data?._id) {
@@ -59,7 +60,7 @@ export const deleteArtist = async (id: string) => {
   const url = `${ARTISTS_URL}/${id}`;
   try {
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.delete(url, { headers });
     return { id, deletedCount: resp.data.deletedCount };
@@ -91,7 +92,7 @@ export const updateArtist = async (artist): Promise<IArtist> => {
     values.forEach((obj) => (newArtist[obj['key']] = obj.val));
 
     const headers = {
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${tokenInstance.getToken()}`,
     };
     const resp = await axios.put(url, newArtist, { headers });
     if (resp?.data?._id) {

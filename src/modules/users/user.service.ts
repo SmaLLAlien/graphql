@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { USERS_URL } from '../../utils/enviroment';
+import { tokenInstance } from '../../utils/tokenService';
 
 export const register = async ({ user }) => {
   const url = `${USERS_URL}/register`;
@@ -21,7 +22,7 @@ export const register = async ({ user }) => {
   }
 };
 
-export const login = async (email: string, password: string) => {
+export const login = async (email: string, password: string): Promise<{ jwt: string }> => {
   const url = `${USERS_URL}/login`;
   const body = {
     email,
@@ -29,8 +30,8 @@ export const login = async (email: string, password: string) => {
   };
   try {
     const resp = await axios.post(url, body);
-    if (resp?.data?._id) {
-      resp.data.id = resp.data._id;
+    if (resp?.data?.jwt) {
+      tokenInstance.setToken(resp.data.jwt);
     }
     return resp.data;
   } catch (e) {
