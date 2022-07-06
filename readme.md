@@ -12,6 +12,8 @@ Server is starting at 9000 port, but you can find and change it in .env file;
 8. Open page on http://localhost:9000/graphql and click ```Query your server``` button
 9. Wait till apollo will be loaded, and you can test api
 
+> :warning: **Mutation allowed only for logged users.** To log in please use jwt Query, example you can find at the end of the API EXAMPLES in USER section
+
 ## API EXAMPLES
 ### GENRES
 1. Get all Genres:
@@ -744,4 +746,28 @@ removeArtistToFavourites(id: "62c05aa21a217b4ba86f3657") {
     firstName
   }
 }
+```
+### USER
+1. register
+```
+register(user: $user) {
+  email
+  id
+}
+```
+
+2. login (returns jwt token)
+```
+jwt(email: "al@al.com", password: "12345678") {
+    jwt
+  }
+```
+WHERE
+```
+$user = {
+    "firstName": "Al",
+    "lastName": "Al",
+    "email": "al@al.com",
+    "password": "123456789"
+  }
 ```
