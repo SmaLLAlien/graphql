@@ -10,7 +10,7 @@ export default gql`
     birthPlace: String
     country: String
     bands: [Band]
-    instruments: String
+    instruments: [String]
   }
   input CreateArtistInput {
     firstName: String
@@ -19,8 +19,8 @@ export default gql`
     birthDate: String
     birthPlace: String
     country: String
-    bandsIds: [String]!
-    instruments: [String]!
+    bandsIds: [String]
+    instruments: [String]
   }
   input FilterArtist {
     limit: Int
@@ -40,8 +40,8 @@ export default gql`
     birthDate: String
     birthPlace: String
     country: String
-    bandsIds: [String]!
-    instruments: [String]!
+    bandsIds: [String]
+    instruments: [String]
   }
   type Deleted {
     deletedCount: Int
