@@ -2,7 +2,7 @@ import { login, register } from '../user.service';
 
 export default {
   Query: {
-    login: async (parent, { email, password }, context) => {
+    jwt: async (parent, { email, password }) => {
       return await login(email, password);
     },
   },

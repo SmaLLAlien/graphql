@@ -19,7 +19,7 @@ export default gql`
   }
 
   extend type Query {
-    login(email: String!, password: String!): JWT
+    jwt(email: String!, password: String!): JWT
   }
   extend type Mutation {
     register(user: UserInput): User
