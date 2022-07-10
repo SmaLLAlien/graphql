@@ -5,7 +5,8 @@
 4. clone this repository: ```git clone https://github.com/SmaLLAlien/graphql.git```
 5. go to project directory: ```cd graphql```
 6. checkout to dev branch: ```git checkout task-5```
-7. run project: ```npm start```
+7. install dependencies: ```npm install```
+8. run project: ```npm start```
 
 Server is starting at 9000 port, but you can find and change it in .env file;
 
